@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loginBtn.addEventListener("click", async () => {
         try {
-            const result = await firebase.auth().signInWithPopup(provider);
+            const result = await auth.signInWithPopup(provider);
             const user = result.user;
             console.log("Logged in as:", user.displayName);
             await updateLoginStreak(user.uid, user.displayName);
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     logoutBtn.addEventListener("click", async () => {
-        await firebase.auth().signOut();
+        await auth.signOut();
         userInfo.textContent = "";
         streakDisplay.textContent = "";
         loginBtn.style.display = "block";
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     async function updateLoginStreak(userId, userName) {
-        const userRef = firebase.firestore().collection("users").doc(userId);
+        const userRef = db.collection("users").doc(userId);
         const docSnap = await userRef.get();
         const today = new Date();
         const todayStr = today.toISOString().split("T")[0];
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         logoutBtn.style.display = "block";
     }
 
-    firebase.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
         if (user) {
             updateLoginStreak(user.uid, user.displayName);
         }
