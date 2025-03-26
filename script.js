@@ -3,13 +3,17 @@ const logoutBtn = document.getElementById("logoutBtn");
 const userInfo = document.getElementById("userInfo");
 const streakDisplay = document.getElementById("streak");
 
+const provider = new firebase.auth.GoogleAuthProvider();
+
 loginBtn.addEventListener("click", async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
     try {
-        const result = await auth.signInWithPopup(provider);
-        await updateLoginStreak(result.user.uid, result.user.displayName);
+        const result = await firebase.auth().signInWithPopup(provider);
+        const user = result.user;
+        console.log("Logged in as:", user.displayName);
+        await updateLoginStreak(user.uid, user.displayName);
     } catch (error) {
-        console.error("Login failed:", error);
+        console.error("Login failed:", error.message);
+        alert("Login failed: " + error.message);
     }
 });
 
