@@ -1,3 +1,4 @@
+// Firebase Config
 const firebaseConfig = {
     apiKey: "AIzaSyAX_Z-EWHoAHbF-Ay2NwaIg2HGuTk2UhFc",
     authDomain: "loginstreak-53171.firebaseapp.com",
